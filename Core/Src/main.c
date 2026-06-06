@@ -58,8 +58,9 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #include "stdio.h"
-FLASH_EraseInitTypeDef eraseInit;
+#include "boot.h"
 
+int x=0;
 /* USER CODE END 0 */
 
 /**
@@ -93,46 +94,16 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  eraseInit.TypeErase     = FLASH_TYPEERASE_SECTORS;    //擦除 0x08000000 到芯片最大 Flash 地址 ，对于单Bank来说
-  eraseInit.Banks         = FLASH_BANK_1;               //第一个存储单元
-  eraseInit.Sector        = FLASH_SECTOR_2;  
-  eraseInit.NbSectors     = 1;                          //  
-  eraseInit.VoltageRange  = FLASH_VOLTAGE_RANGE_3; // 电压范围 2.7V - 3.6V
-
-  // 执行擦除
-   HAL_FLASH_Unlock();
-   uint32_t PageError = 0;
-   __disable_irq();                             //擦除前关闭中断
-
-   if (HAL_FLASHEx_Erase(&eraseInit,&PageError) == HAL_OK)
-	 {
-			printf("擦除 成功\r\n");
-	 }
-
-  __enable_irq();           //擦除后打开中断
-  uint32_t writeFlashData = 0x55555555;        //待写入的值
-  uint32_t addr = 0x08008000;                  //写入的地址
-  
-  HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,addr,writeFlashData);
-  printf("at address:0x%x, read value:0x%x\r\n", addr, *(__IO uint32_t*)addr);
-
-  addr = 0x08008004;
-
-  writeFlashData = 0xAAAAAAAA;
-  HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,addr,writeFlashData);
-  printf("at address:0x%x, read value:0x%x\r\n", addr, *(__IO uint32_t*)addr);  
-  
-  HAL_FLASH_Lock();
-  while(1);
-
+  //Erase_Sector(0x08008000,1);
+  //printf("%d\r\n",(uint8_t));
+  x %a = b% x
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    printf("Hello, Flash!\r\n");
-    HAL_Delay(1000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -187,21 +158,6 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-
-static int Erase_page(uint32_t pageaddr, uint32_t num)
-{
-	HAL_FLASH_Unlock();
-	
-	/* 擦除FLASH*/
-
-	
-	/*设置PageError，调用擦除函数*/
-	uint32_t PageError = 0;
-	HAL_FLASHEx_Erase(&FlashSet, &PageError);
-	
-	HAL_FLASH_Lock();
-	return 1;
-}
 
 
 
