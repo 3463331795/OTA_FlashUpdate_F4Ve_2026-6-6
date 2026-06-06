@@ -75,3 +75,22 @@ target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 
+file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/Boot/*.c  
+
+
+
+)
+
+# Add include paths
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/Boot  
+
+
+    # Add user defined include paths
+)
+
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE 
+    #Add user sources here
+    ${MY_SOURCES}
+)

@@ -60,7 +60,7 @@ void SystemClock_Config(void);
 #include "stdio.h"
 #include "boot.h"
 
-int x=0;
+
 /* USER CODE END 0 */
 
 /**
@@ -94,16 +94,24 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  //Erase_Sector(0x08008000,1);
-  //printf("%d\r\n",(uint8_t));
-  x %a = b% x
+  Erase_Sector(2,1);
+
+  // 写若干个数据
+  uint32_t data[4] = {0x12345678, 0x9abcdef0, 0xdeadbeef, 0xcafebabe};
+  WriteFlash(0x08008000, data, sizeof(data) / sizeof(uint32_t));
+
+  // 读若干个数据
+  uint32_t read_data[4] = {0};
+  ReadFlash(0x08008000, read_data, sizeof(read_data) / sizeof(uint32_t));
+  printf("Read Data: %08X %08X %08X %08X\r\n", (unsigned int)read_data[0], (unsigned int)read_data[1], (unsigned int)read_data[2], (unsigned int)read_data[3]);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+    // printf("Hello, World! \r\n");
+    // HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
